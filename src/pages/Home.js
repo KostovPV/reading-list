@@ -10,7 +10,7 @@ export default function Home() {
     const { user} = useAuthContext();
     const {documents: books} = useCollection( 
         'books',
-        ['uid', '==', user.uid]
+        ['uid', '==', user?.uid]
         )
 
 

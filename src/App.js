@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate  } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
 
 // components
@@ -8,28 +8,30 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 
 function App() {
-  const { user, authIsReady} = useAuthContext();
+  const {user, authIsReady} = useAuthContext();
+  // const navigate = useNavigate();
   return (
     <div className="App">
       { authIsReady && (
       <BrowserRouter>
         <Navbar />
-        <Switch>
-          <Route exact path="/">
-           {user && <Home />}
-           {!user && <Redirect to="/login" />}
+        <Routes>
+          <Route  path="/" element={user ? <Home /> : <Navigate to="/login"/>}>
+           {/* {user && <Home />}
+           {!user && <Navigate to="/login"/>} */}
           </Route>
          
-          <Route path="/signup">
-           {!user && <Signup />}
-           {user && <Redirect to="/" />}
+          <Route path="/signup" 
+          element={!user ? <Signup/> : <Navigate to="/"/> }>
+           {/* {!user && <Signup />}
+           {user && <Navigate to="/"/>} */}
           </Route>
-          <Route path="/login">
-           {!user && <Login />}
-           {user && <Redirect to="/" />}
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/"/>}>
+           {/* {!user && <Login />}
+           {user && <Navigate to="/"/>} */}
 
           </Route>
-        </Switch>
+        </Routes>
       </BrowserRouter>
       )}
     </div>
